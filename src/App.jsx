@@ -8,12 +8,20 @@ function App() {
 
   function handleCreateProject(newProject) {
     setExistingProjects((prevProjects) => [...prevProjects, newProject]);
+    setSelectedProject(newProject);
+  }
+  function handleSelectProject(project) {
+    setSelectedProject(project);
   }
   return (
     <div className="app-container">
-      <SideBar></SideBar>
-      {existingProjects.length > 0 ? (
-        <ProjectView projects={existingProjects} />
+      <SideBar
+        projects={existingProjects}
+        onAddProject={handleCreateProject}
+        onSelectProject={handleSelectProject}
+      />
+      {selectedProject ? (
+        <ProjectView project={selectedProject} />
       ) : (
         <NoProjectsView onCreateProject={handleCreateProject} />
       )}
