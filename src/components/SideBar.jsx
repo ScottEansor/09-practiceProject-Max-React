@@ -5,7 +5,15 @@ export default function SideBar({ projects, onAddProject, onSelectProject }) {
   function handleAddProject() {
     const name = prompt("Enter project name:");
     const description = prompt("Enter project description:");
+
+    if (name && description) {
+      const newProject = { name, description };
+      onAddProject(newProject);
+    } else {
+      alert("please provide both description and project name");
+    }
   }
+
   return (
     <>
       <div className="sideBar-container">
@@ -14,8 +22,13 @@ export default function SideBar({ projects, onAddProject, onSelectProject }) {
           + Add Project
         </button>
         <ul>
-          <li>test 1</li>
-          <li>test 2</li>
+          {projects.map((project, index) => {
+            return (
+              <li key={index} onClick={() => onSelectProject(project)}>
+                {project.name}
+              </li>
+            );
+          })}
         </ul>
       </div>
     </>

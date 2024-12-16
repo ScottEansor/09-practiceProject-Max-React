@@ -33,7 +33,7 @@ export default function NoProjectView({ onCreateProject }) {
           value={projectDescription}
           onChange={(e) => setProjectDescription(e.target.value)}
         />
-        <button>Create Project</button>
+        <button onClick={handleCreateProject}>Create Project</button>
       </div>
     </>
   );
