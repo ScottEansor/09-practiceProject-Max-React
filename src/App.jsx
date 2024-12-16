@@ -7,11 +7,25 @@ function App() {
   const [selectedProject, setSelectedProject] = useState(null);
 
   function handleCreateProject(newProject) {
-    setExistingProjects((prevProjects) => [...prevProjects, newProject]);
-    setSelectedProject(newProject);
+    const projectWithTasks = { ...newProject, tasks: [] };
+    setExistingProjects((prevProjects) => [...prevProjects, projectWithTasks]);
+    setSelectedProject(projectWithTasks);
   }
   function handleSelectProject(project) {
     setSelectedProject(project);
+  }
+  function handleAddTaskToProject(task) {
+    const updatedProjects = existingProjects.map((project) => {
+      if (project.name === selectedProject.name) {
+        return { ...project, tasks: [...project.tasks, task] };
+      }
+      return project;
+    });
+    setExistingProjects(updatedProjects);
+    setSelectedProject((prev) => ({
+      ...prev,
+      tasks: [...prev.tasks, task],
+    }));
   }
   return (
     <div className="app-container">
@@ -21,7 +35,10 @@ function App() {
         onSelectProject={handleSelectProject}
       />
       {selectedProject ? (
-        <ProjectView project={selectedProject} />
+        <ProjectView
+          project={selectedProject}
+          onAddTask={handleAddTaskToProject}
+        />
       ) : (
         <NoProjectsView onCreateProject={handleCreateProject} />
       )}
